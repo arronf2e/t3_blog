@@ -1,10 +1,11 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
-
+import { ChakraProvider } from "@chakra-ui/react";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import Layout from "~/components/layout";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,7 +13,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <ChakraProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ChakraProvider>
     </SessionProvider>
   );
 };
