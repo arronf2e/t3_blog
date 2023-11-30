@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -8,11 +9,13 @@ import {
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
+    .query(() => {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An unexpected error occurred, please try again later.',
+        // optional: pass the original error to retain stack trace
+        cause: "bad",
+      });
     }),
 
   create: protectedProcedure
